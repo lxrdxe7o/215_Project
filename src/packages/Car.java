@@ -3,7 +3,7 @@ package packages;
 import java.util.Scanner;
 
 
-public class Car extends VehicleType implements Vehicle {
+class Car extends VehicleType implements Vehicle {
 
     public Car(String make, String model, String year, String color, double price, String vin, String type) {
         this.make = make;
@@ -72,8 +72,7 @@ public class Car extends VehicleType implements Vehicle {
     }
 
     public String toString() {
-        return "Make: " + make + "\nModel: " + model + "\nYear: " + year + "\nColor: " + color + "\nPrice: " + price
-                + "\nVIN: " + vin + "\nType: " + type;
+        return make + "," + model + "," + year + "," + color + "," + price + "," + vin + "," + type;
     }
 
     public double discountentPrice(int discount) {
@@ -81,8 +80,7 @@ public class Car extends VehicleType implements Vehicle {
     }
 
     public void updateVehicleInfo() {
-        Scanner scanner = new Scanner(System.in);
-        try {
+        try (Scanner scanner = new Scanner(System.in)) {
             System.out.println("Please enter the make:");
             String make = scanner.nextLine();
             System.out.println("Please enter the model:");
@@ -104,6 +102,31 @@ public class Car extends VehicleType implements Vehicle {
             setVin(vin);
         } catch (Exception e) {
             System.out.println("An error occurred while updating vehicle information: " + e.getMessage());
+        }
+    }
+
+    public static void saveCars(ArrayList<Car> cars) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("cars.dat"))) {
+            for (Car car : cars) {
+                writer.write(car.toString());
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            System.out.println("An error occurred while saving cars: " + e.getMessage());
+        }
+    }
+
+    public static void loadCars(ArrayList<Car> cars) {
+        try (BufferedReader reader = new BufferedReader(new FileReader("cars.dat"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(",");
+                if (parts.length == 7) {
+                    cars.add(new Car(parts[0], parts[1], parts[2], parts[3], Double.parseDouble(parts[4]), parts[5], parts[6]));
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("An error occurred while loading cars: " + e.getMessage());
         }
     }
 }

@@ -2,7 +2,6 @@ package packages;
 
 import java.util.Scanner;
 
-public 
 class Motorcycle extends VehicleType implements Vehicle {
 
     public Motorcycle(String make, String model, String year, String color, double price, String vin, String type) {
@@ -72,8 +71,7 @@ class Motorcycle extends VehicleType implements Vehicle {
     }
 
     public String toString() {
-        return "Make: " + make + "\nModel: " + model + "\nYear: " + year + "\nColor: " + color + "\nPrice: " + price
-                + "\nVIN: " + vin + "\nType: " + type;
+        return make + "," + model + "," + year + "," + color + "," + price + "," + vin + "," + type;
     }
 
     public double discountentPrice(int discount) {
@@ -81,8 +79,7 @@ class Motorcycle extends VehicleType implements Vehicle {
     }
 
     public void updateVehicleInfo() {
-        Scanner scanner = new Scanner(System.in);
-        try {
+        try (Scanner scanner = new Scanner(System.in)) {
             System.out.println("Please enter the make:");
             String make = scanner.nextLine();
             System.out.println("Please enter the model:");
@@ -106,4 +103,30 @@ class Motorcycle extends VehicleType implements Vehicle {
             System.out.println("An error occurred while updating vehicle information: " + e.getMessage());
         }
     }
+
+    public static void saveMotorcycles(ArrayList<Motorcycle> motorcycles) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("motorcycles.dat"))) {
+            for (Motorcycle motorcycle : motorcycles) {
+                writer.write(motorcycle.toString());
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            System.out.println("An error occurred while saving motorcycles: " + e.getMessage());
+        }
+    }
+
+    public static void loadMotorcycles(ArrayList<Motorcycle> motorcycles) {
+        try (BufferedReader reader = new BufferedReader(new FileReader("motorcycles.dat"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(",");
+                if (parts.length == 7) {
+                    motorcycles.add(new Motorcycle(parts[0], parts[1], parts[2], parts[3], Double.parseDouble(parts[4]), parts[5], parts[6]));
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("An error occurred while loading motorcycles: " + e.getMessage());
+        }
+    }
 }
+

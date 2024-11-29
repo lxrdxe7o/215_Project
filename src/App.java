@@ -9,19 +9,20 @@ import packages.Car;
 import packages.Motorcycle;
 import packages.Customer;
 
-
 public class App {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        ArrayList<Vehicle> vehicles = new ArrayList<>();
+        ArrayList<Car> cars = new ArrayList<>();
+        ArrayList<Motorcycle> motorcycles = new ArrayList<>();
         ArrayList<Customer> customers = new ArrayList<>();
         Map<String, String> vehicleTypes = new HashMap<>();
         vehicleTypes.put("Car", "Car");
         vehicleTypes.put("Motorcycle", "Motorcycle");
 
         // Load data from files
-        loadVehicles(vehicles);
-        loadCustomers(customers);
+        Car.loadCars(cars);
+        Motorcycle.loadMotorcycles(motorcycles);
+        Customer.loadCustomers(customers);
 
         System.out.println("Welcome to the Vehicle Inventory App!");
 
@@ -38,11 +39,12 @@ public class App {
 
             if (option == 1) {
                 System.out.println("Please enter the vehicle type (Car or Motorcycle):");
-                String vehicleType = scanner.nextLine();
-                if (!vehicleTypes.containsKey(vehicleType)) {
+                String vehicleType = scanner.nextLine().trim().toLowerCase();
+                if (!vehicleTypes.containsKey(vehicleType.substring(0, 1).toUpperCase() + vehicleType.substring(1))) {
                     System.out.println("Invalid vehicle type.");
                     continue;
                 }
+                vehicleType = vehicleType.substring(0, 1).toUpperCase() + vehicleType.substring(1);
 
                 System.out.println("Please enter the make:");
                 String make = scanner.nextLine();
@@ -58,13 +60,12 @@ public class App {
                 String vin = scanner.nextLine();
 
                 if (vehicleType.equals("Car")) {
-                    vehicles.add(new Car(make, model, year, color, Double.parseDouble(price), vin, vehicleType));
+                    cars.add(new Car(make, model, year, color, Double.parseDouble(price), vin, vehicleType));
+                    Car.saveCars(cars);
                 } else if (vehicleType.equals("Motorcycle")) {
-                    vehicles.add(new Motorcycle(make, model, year, color, Double.parseDouble(price), vin, vehicleType));
+                    motorcycles.add(new Motorcycle(make, model, year, color, Double.parseDouble(price), vin, vehicleType));
+                    Motorcycle.saveMotorcycles(motorcycles);
                 }
-
-                // Save vehicles to file
-                saveVehicles(vehicles);
 
             } else if (option == 2) {
                 System.out.println("Please enter the customer name:");
@@ -81,13 +82,20 @@ public class App {
                 String id = scanner.nextLine();
 
                 customers.add(new Customer(name, address, phone, email, dob, id));
-
-                // Save customers to file
-                saveCustomers(customers);
+                Customer.saveCustomers(customers);
 
             } else if (option == 3) {
-                for (Vehicle vehicle : vehicles) {
-                    System.out.println(vehicle);
+                try {
+                    System.out.println("Cars:");
+                    for (Car car : cars) {
+                        System.out.println(car.toString());
+                    }
+                    System.out.println("Motorcycles:");
+                    for (Motorcycle motorcycle : motorcycles) {
+                        System.out.println(motorcycle.toString());
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             } else if (option == 4) {
                 for (Customer customer : customers) {
@@ -99,55 +107,5 @@ public class App {
         }
 
         scanner.close();
-    }
-
-    private static void saveVehicles(ArrayList<Vehicle> vehicles) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("vehicles.dat"))) {
-            for (Vehicle vehicle : vehicles) {
-                writer.write(vehicle.toString());
-                writer.newLine();
-            }
-        } catch (IOException e) {
-            System.out.println("An error occurred while saving vehicles: " + e.getMessage());
-        }
-    }
-
-    private static void loadVehicles(ArrayList<Vehicle> vehicles) {
-        try (BufferedReader reader = new BufferedReader(new FileReader("vehicles.dat"))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                // Deserialize the vehicle object from the line
-                // This is a placeholder, you need to implement the deserialization logic
-
-                // Example of deserialization logic
-                // String[] parts = line.split(",");
-                // vehicles.add(new Vehicle(parts[0], parts[1], parts[2], parts[3], Double.parseDouble(parts[4]), parts[5], parts[6]));
-            }
-        } catch (IOException e) {
-            System.out.println("An error occurred while loading vehicles: " + e.getMessage());
-        }
-    }
-
-    private static void saveCustomers(ArrayList<Customer> customers) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("customers.dat"))) {
-            for (Customer customer : customers) {
-                writer.write(customer.toString());
-                writer.newLine();
-            }
-        } catch (IOException e) {
-            System.out.println("An error occurred while saving customers: " + e.getMessage());
-        }
-    }
-
-    private static void loadCustomers(ArrayList<Customer> customers) {
-        try (BufferedReader reader = new BufferedReader(new FileReader("customers.dat"))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                // Deserialize the customer object from the line
-                // This is a placeholder, you need to implement the deserialization logic
-            }
-        } catch (IOException e) {
-            System.out.println("An error occurred while loading customers: " + e.getMessage());
-        }
     }
 }
