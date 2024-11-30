@@ -18,5 +18,4 @@ public interface Vehicle extends Serializable {
     void setPrice(double price);
     void setVin(String vin);
     void setType(String type);
-    void updateVehicleInfo();
 }

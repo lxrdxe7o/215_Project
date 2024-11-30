@@ -1,18 +1,26 @@
 package packages;
 
 import java.util.Scanner;
+import java.util.ArrayList;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.BufferedReader;
+import java.io.FileReader;
 
 
 public class Car extends VehicleType implements Vehicle {
 
+    public Car() {
+    }
+
     public Car(String make, String model, String year, String color, double price, String vin, String type) {
-        this.make = make;
+        super(make, type);
         this.model = model;
         this.year = year;
         this.color = color;
         this.price = price;
         this.vin = vin;
-        this.type = type;
     }
 
     public String getMake() {
@@ -72,17 +80,29 @@ public class Car extends VehicleType implements Vehicle {
     }
 
     public String toString() {
-        return "Make: " + make + "\nModel: " + model + "\nYear: " + year + "\nColor: " + color + "\nPrice: " + price
-                + "\nVIN: " + vin + "\nType: " + type;
+        return make + "," + model + "," + year + "," + color + "," + price + "," + vin + "," + type;
     }
 
-    public double discountentPrice(int discount) {
-        return (price - (price * (discount / 100)));
+    public static String toString(Car car) {
+        return "Make : " + car.make + "\n" + "Model : " + car.model + "\n" + "Year : " + car.year + "\n" + "Color : " + car.color + "\n" + "Price : " + car.price + "\n" + "Vin no. : " + car.vin + "\n" + "Type : " + car.type;
     }
 
+    @Override
+    public double discountedPrice(int discount) {
+        return price - (price * discount / 100);
+    }
+
+    public double discountedPrice(double discount) {
+        return price - (price * discount / 100);
+    }
+
+    public double discountedPrice(int discount, int additionalDiscount) {
+        return price - (price * (discount + additionalDiscount) / 100);
+    }
+
+    @Override
     public void updateVehicleInfo() {
-        Scanner scanner = new Scanner(System.in);
-        try {
+        try (Scanner scanner = new Scanner(System.in)) {
             System.out.println("Please enter the make:");
             String make = scanner.nextLine();
             System.out.println("Please enter the model:");
@@ -104,6 +124,67 @@ public class Car extends VehicleType implements Vehicle {
             setVin(vin);
         } catch (Exception e) {
             System.out.println("An error occurred while updating vehicle information: " + e.getMessage());
+        }
+    }
+
+    public void updateVehicleInfo(String make, String model, String year, String color, double price, String vin) {
+        setMake(make);
+        setModel(model);
+        setYear(year);
+        setColor(color);
+        setPrice(price);
+        setVin(vin);
+    }
+
+    public static void saveCars(ArrayList<Car> cars) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("cars.dat"))) {
+            for (Car car : cars) {
+                writer.write(car.toString());
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            System.out.println("An error occurred while saving cars: " + e.getMessage());
+        }
+    }
+
+    public static void loadCars(ArrayList<Car> cars) {
+        try (BufferedReader reader = new BufferedReader(new FileReader("cars.dat"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(",");
+                if (parts.length == 7) {
+                    cars.add(new Car(parts[0], parts[1], parts[2], parts[3], Double.parseDouble(parts[4]), parts[5], parts[6]));
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("An error occurred while loading cars: " + e.getMessage());
+        }
+    }
+
+    public static void searchCar(ArrayList<Car> cars, String Model) throws CarNotFoundException {
+        for (Car car : cars) {
+            if (car.getVin().equals(Model)) {
+                System.out.println(car);
+                return;
+            }
+        }
+        throw new CarNotFoundException("Car with VIN " + Model + " not found.");
+    }
+
+    public static void updateCarInfo(ArrayList<Car> cars, String vin) throws CarNotFoundException {
+        for (Car car : cars) {
+            if (car.getVin().equals(vin)) {
+                car.updateVehicleInfo();
+                Car.saveCars(cars);
+                return;
+            }
+        }
+        throw new CarNotFoundException("Car with VIN " + vin + " not found.");
+    }
+
+    static class CarNotFoundException extends Exception {
+        public CarNotFoundException(String message) {
+            super(message);
         }
     }
 }

@@ -1,153 +1,217 @@
-import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import packages.Vehicle;
+
 import packages.Car;
 import packages.Motorcycle;
 import packages.Customer;
 
 
-public class App {
+public class App extends JFrame{
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        ArrayList<Vehicle> vehicles = new ArrayList<>();
+        ArrayList<Car> cars = new ArrayList<>();
+        ArrayList<Motorcycle> motorcycles = new ArrayList<>();
         ArrayList<Customer> customers = new ArrayList<>();
         Map<String, String> vehicleTypes = new HashMap<>();
         vehicleTypes.put("Car", "Car");
         vehicleTypes.put("Motorcycle", "Motorcycle");
 
         // Load data from files
-        loadVehicles(vehicles);
-        loadCustomers(customers);
+        Car.loadCars(cars);
+        Motorcycle.loadMotorcycles(motorcycles);
+        Customer.loadCustomers(customers);
+        // Create the main frame
+        JFrame frame = new JFrame("Vehicle Inventory App");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(600, 400);
+        frame.setLayout(new BorderLayout());
 
-        System.out.println("Welcome to the Vehicle Inventory App!");
+        // Create the main panel
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(10, 1));
 
-        while (true) {
-            System.out.println("Please select an option:");
-            System.out.println("1. Add a vehicle");
-            System.out.println("2. Add a customer");
-            System.out.println("3. List all vehicles");
-            System.out.println("4. List all customers");
-            System.out.println("5. Exit");
+        // Create buttons for each option
+        JButton addVehicleButton = new JButton("Add a vehicle");
+        JButton addCustomerButton = new JButton("Add a customer");
+        JButton listVehiclesButton = new JButton("List all vehicles");
+        JButton listCustomersButton = new JButton("List all customers");
+        JButton searchVehicleButton = new JButton("Search and display a vehicle");
+        JButton updateVehicleButton = new JButton("Search and update a vehicle");
+        JButton searchCustomerButton = new JButton("Search and display a customer");
+        JButton updateCustomerButton = new JButton("Search and update a customer");
+        JButton exitButton = new JButton("Exit");
 
-            int option = scanner.nextInt();
-            scanner.nextLine();
+        // Add buttons to the panel
+        panel.add(addVehicleButton);
+        panel.add(addCustomerButton);
+        panel.add(listVehiclesButton);
+        panel.add(listCustomersButton);
+        panel.add(searchVehicleButton);
+        panel.add(updateVehicleButton);
+        panel.add(searchCustomerButton);
+        panel.add(updateCustomerButton);
+        panel.add(exitButton);
 
-            if (option == 1) {
-                System.out.println("Please enter the vehicle type (Car or Motorcycle):");
-                String vehicleType = scanner.nextLine();
-                if (!vehicleTypes.containsKey(vehicleType)) {
-                    System.out.println("Invalid vehicle type.");
-                    continue;
-                }
+        // Add panel to the frame
+        frame.add(panel, BorderLayout.CENTER);
 
-                System.out.println("Please enter the make:");
-                String make = scanner.nextLine();
-                System.out.println("Please enter the model:");
-                String model = scanner.nextLine();
-                System.out.println("Please enter the year:");
-                String year = scanner.nextLine();
-                System.out.println("Please enter the color:");
-                String color = scanner.nextLine();
-                System.out.println("Please enter the price:");
-                String price = scanner.nextLine();
-                System.out.println("Please enter the VIN:");
-                String vin = scanner.nextLine();
-
-                if (vehicleType.equals("Car")) {
-                    vehicles.add(new Car(make, model, year, color, Double.parseDouble(price), vin, vehicleType));
-                } else if (vehicleType.equals("Motorcycle")) {
-                    vehicles.add(new Motorcycle(make, model, year, color, Double.parseDouble(price), vin, vehicleType));
-                }
-
-                // Save vehicles to file
-                saveVehicles(vehicles);
-
-            } else if (option == 2) {
-                System.out.println("Please enter the customer name:");
-                String name = scanner.nextLine();
-                System.out.println("Please enter the customer address:");
-                String address = scanner.nextLine();
-                System.out.println("Please enter the customer phone number:");
-                String phone = scanner.nextLine();
-                System.out.println("Please enter the customer email:");
-                String email = scanner.nextLine();
-                System.out.println("Please enter the customer date of birth:");
-                String dob = scanner.nextLine();
-                System.out.println("Please enter the customer ID:");
-                String id = scanner.nextLine();
-
-                customers.add(new Customer(name, address, phone, email, dob, id));
-
-                // Save customers to file
-                saveCustomers(customers);
-
-            } else if (option == 3) {
-                for (Vehicle vehicle : vehicles) {
-                    System.out.println(vehicle);
-                }
-            } else if (option == 4) {
-                for (Customer customer : customers) {
-                    System.out.println(customer);
-                }
-            } else if (option == 5) {
-                break;
+        // Add action listeners to buttons
+        addVehicleButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            // Add vehicle logic
+            String vehicleType = JOptionPane.showInputDialog("Please enter the vehicle type (Car or Motorcycle):").trim().toLowerCase();
+            if (!vehicleTypes.containsKey(vehicleType.substring(0, 1).toUpperCase() + vehicleType.substring(1))) {
+                JOptionPane.showMessageDialog(frame, "Invalid vehicle type.");
+                return;
             }
-        }
+            vehicleType = vehicleType.substring(0, 1).toUpperCase() + vehicleType.substring(1);
 
-        scanner.close();
-    }
+            String make = JOptionPane.showInputDialog("Please enter the make:");
+            String model = JOptionPane.showInputDialog("Please enter the model:");
+            String year = JOptionPane.showInputDialog("Please enter the year:");
+            String color = JOptionPane.showInputDialog("Please enter the color:");
+            String price = JOptionPane.showInputDialog("Please enter the price:");
+            String vin = JOptionPane.showInputDialog("Please enter the VIN:");
 
-    private static void saveVehicles(ArrayList<Vehicle> vehicles) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("vehicles.dat"))) {
-            for (Vehicle vehicle : vehicles) {
-                writer.write(vehicle.toString());
-                writer.newLine();
+            if (vehicleType.equals("Car")) {
+                cars.add(new Car(make, model, year, color, Double.parseDouble(price), vin, vehicleType));
+                Car.saveCars(cars);
+            } else if (vehicleType.equals("Motorcycle")) {
+                motorcycles.add(new Motorcycle(make, model, year, color, Double.parseDouble(price), vin, vehicleType));
+                Motorcycle.saveMotorcycles(motorcycles);
             }
-        } catch (IOException e) {
-            System.out.println("An error occurred while saving vehicles: " + e.getMessage());
-        }
-    }
-
-    private static void loadVehicles(ArrayList<Vehicle> vehicles) {
-        try (BufferedReader reader = new BufferedReader(new FileReader("vehicles.dat"))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                // Deserialize the vehicle object from the line
-                // This is a placeholder, you need to implement the deserialization logic
-
-                // Example of deserialization logic
-                // String[] parts = line.split(",");
-                // vehicles.add(new Vehicle(parts[0], parts[1], parts[2], parts[3], Double.parseDouble(parts[4]), parts[5], parts[6]));
             }
-        } catch (IOException e) {
-            System.out.println("An error occurred while loading vehicles: " + e.getMessage());
-        }
-    }
+        });
 
-    private static void saveCustomers(ArrayList<Customer> customers) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("customers.dat"))) {
+        addCustomerButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            // Add customer logic
+            String name = JOptionPane.showInputDialog("Please enter the customer name:");
+            String address = JOptionPane.showInputDialog("Please enter the customer address:");
+            String phone = JOptionPane.showInputDialog("Please enter the customer phone number:");
+            String email = JOptionPane.showInputDialog("Please enter the customer email:");
+            String dob = JOptionPane.showInputDialog("Please enter the customer date of birth:");
+            String id = JOptionPane.showInputDialog("Please enter the customer ID:");
+
+            customers.add(new Customer(name, address, phone, email, dob, id));
+            Customer.saveCustomers(customers);
+            }
+        });
+
+        listVehiclesButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            // List all vehicles logic
+            StringBuilder vehiclesList = new StringBuilder("Cars:\n");
+            for (Car car : cars) {
+                vehiclesList.append(car.toString()).append("\n");
+            }
+            vehiclesList.append("Motorcycles:\n");
+            for (Motorcycle motorcycle : motorcycles) {
+                vehiclesList.append(motorcycle.toString()).append("\n");
+            }
+            JOptionPane.showMessageDialog(frame, vehiclesList.toString());
+            }
+        });
+
+        listCustomersButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            // List all customers logic
+            StringBuilder customersList = new StringBuilder();
             for (Customer customer : customers) {
-                writer.write(customer.toString());
-                writer.newLine();
+                customersList.append(customer.toString()).append("\n");
             }
-        } catch (IOException e) {
-            System.out.println("An error occurred while saving customers: " + e.getMessage());
-        }
-    }
+            JOptionPane.showMessageDialog(frame, customersList.toString());
+            }
+        });
 
-    private static void loadCustomers(ArrayList<Customer> customers) {
-        try (BufferedReader reader = new BufferedReader(new FileReader("customers.dat"))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                // Deserialize the customer object from the line
-                // This is a placeholder, you need to implement the deserialization logic
+        searchVehicleButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            // Search and display a vehicle logic
+            String vehicleType = JOptionPane.showInputDialog("Please enter the vehicle type (Car or Motorcycle):").trim().toLowerCase();
+            String model = JOptionPane.showInputDialog("Please enter the model:");
+            try {
+                if (vehicleType.equals("car")) {
+                Car.searchCar(cars, model);
+                } else if (vehicleType.equals("motorcycle")) {
+                Motorcycle.searchMotorcycle(motorcycles, model);
+                } else {
+                JOptionPane.showMessageDialog(frame, "Invalid vehicle type.");
+                }
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(frame, ex.getMessage());
             }
-        } catch (IOException e) {
-            System.out.println("An error occurred while loading customers: " + e.getMessage());
+            }
+        });
+
+        updateVehicleButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            // Search and update a vehicle logic
+            String vehicleType = JOptionPane.showInputDialog("Please enter the vehicle type (Car or Motorcycle):").trim().toLowerCase();
+            String model = JOptionPane.showInputDialog("Please enter the model:");
+            try {
+                if (vehicleType.equals("car")) {
+                Car.updateCarInfo(cars, model);
+                } else if (vehicleType.equals("motorcycle")) {
+                Motorcycle.updateMotorcycleInfo(motorcycles, model);
+                } else {
+                JOptionPane.showMessageDialog(frame, "Invalid vehicle type.");
+                }
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(frame, ex.getMessage());
+            }
+            }
+        });
+
+        searchCustomerButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            // Search and display a customer logic
+            String name = JOptionPane.showInputDialog("Please enter the customer name:");
+            
+            try {
+                Customer.searchCustomer(customers, name);
+            } catch (Customer.CustomerNotFoundException ex) {
+                JOptionPane.showMessageDialog(frame, ex.getMessage());
+            }
+            }
+        });
+
+        updateCustomerButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            // Search and update a customer logic
+            String name = JOptionPane.showInputDialog("Please enter the customer ID:");
+            try {
+                for (Customer customer : customers) {
+                Customer.searchCustomer(customers, name);
+                customer.updateCustomerInfo();
+                break;
+                }
+            } catch (Customer.CustomerNotFoundException ex) {
+                JOptionPane.showMessageDialog(frame, ex.getMessage());
+            }
+            }
+        });
+
+        exitButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            // Exit logic
+            Car.saveCars(cars);
+            Motorcycle.saveMotorcycles(motorcycles);
+            Customer.saveCustomers(customers);
+            JOptionPane.showMessageDialog(frame, "Exiting the Vehicle Inventory App.");
+            System.exit(0);
+            }
+        });
+
+        // Display the frame
+        frame.setVisible(true);
+            scanner.close();
         }
-    }
 }
+
