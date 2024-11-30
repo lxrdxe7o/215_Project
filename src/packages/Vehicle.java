@@ -2,7 +2,7 @@ package packages;
 
 import java.io.Serializable;
 
-interface Vehicle extends Serializable {
+public interface Vehicle extends Serializable {
     String getMake();
     String getModel();
     String getYear();
@@ -18,9 +18,4 @@ interface Vehicle extends Serializable {
     void setPrice(double price);
     void setVin(String vin);
     void setType(String type);
-<<<<<<< HEAD
 }
-=======
-    void updateVehicleInfo();
-}
->>>>>>> origin/main

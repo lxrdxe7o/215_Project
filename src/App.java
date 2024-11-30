@@ -12,12 +12,8 @@ import packages.Car;
 import packages.Motorcycle;
 import packages.Customer;
 
-<<<<<<< HEAD
 
 public class App extends JFrame{
-=======
-public class App {
->>>>>>> origin/main
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         ArrayList<Car> cars = new ArrayList<>();
@@ -31,14 +27,11 @@ public class App {
         Car.loadCars(cars);
         Motorcycle.loadMotorcycles(motorcycles);
         Customer.loadCustomers(customers);
-<<<<<<< HEAD
         // Create the main frame
         JFrame frame = new JFrame("Vehicle Inventory App");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(600, 400);
         frame.setLayout(new BorderLayout());
-=======
->>>>>>> origin/main
 
         // Create the main panel
         JPanel panel = new JPanel();
@@ -66,7 +59,6 @@ public class App {
         panel.add(updateCustomerButton);
         panel.add(exitButton);
 
-<<<<<<< HEAD
         // Add panel to the frame
         frame.add(panel, BorderLayout.CENTER);
 
@@ -78,78 +70,9 @@ public class App {
             if (!vehicleTypes.containsKey(vehicleType.substring(0, 1).toUpperCase() + vehicleType.substring(1))) {
                 JOptionPane.showMessageDialog(frame, "Invalid vehicle type.");
                 return;
-=======
-            if (option == 1) {
-                System.out.println("Please enter the vehicle type (Car or Motorcycle):");
-                String vehicleType = scanner.nextLine().trim().toLowerCase();
-                if (!vehicleTypes.containsKey(vehicleType.substring(0, 1).toUpperCase() + vehicleType.substring(1))) {
-                    System.out.println("Invalid vehicle type.");
-                    continue;
-                }
-                vehicleType = vehicleType.substring(0, 1).toUpperCase() + vehicleType.substring(1);
-
-                System.out.println("Please enter the make:");
-                String make = scanner.nextLine();
-                System.out.println("Please enter the model:");
-                String model = scanner.nextLine();
-                System.out.println("Please enter the year:");
-                String year = scanner.nextLine();
-                System.out.println("Please enter the color:");
-                String color = scanner.nextLine();
-                System.out.println("Please enter the price:");
-                String price = scanner.nextLine();
-                System.out.println("Please enter the VIN:");
-                String vin = scanner.nextLine();
-
-                if (vehicleType.equals("Car")) {
-                    cars.add(new Car(make, model, year, color, Double.parseDouble(price), vin, vehicleType));
-                    Car.saveCars(cars);
-                } else if (vehicleType.equals("Motorcycle")) {
-                    motorcycles.add(new Motorcycle(make, model, year, color, Double.parseDouble(price), vin, vehicleType));
-                    Motorcycle.saveMotorcycles(motorcycles);
-                }
-
-            } else if (option == 2) {
-                System.out.println("Please enter the customer name:");
-                String name = scanner.nextLine();
-                System.out.println("Please enter the customer address:");
-                String address = scanner.nextLine();
-                System.out.println("Please enter the customer phone number:");
-                String phone = scanner.nextLine();
-                System.out.println("Please enter the customer email:");
-                String email = scanner.nextLine();
-                System.out.println("Please enter the customer date of birth:");
-                String dob = scanner.nextLine();
-                System.out.println("Please enter the customer ID:");
-                String id = scanner.nextLine();
-
-                customers.add(new Customer(name, address, phone, email, dob, id));
-                Customer.saveCustomers(customers);
-
-            } else if (option == 3) {
-                try {
-                    System.out.println("Cars:");
-                    for (Car car : cars) {
-                        System.out.println(car.toString());
-                    }
-                    System.out.println("Motorcycles:");
-                    for (Motorcycle motorcycle : motorcycles) {
-                        System.out.println(motorcycle.toString());
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            } else if (option == 4) {
-                for (Customer customer : customers) {
-                    System.out.println(customer);
-                }
-            } else if (option == 5) {
-                break;
->>>>>>> origin/main
             }
             vehicleType = vehicleType.substring(0, 1).toUpperCase() + vehicleType.substring(1);
 
-<<<<<<< HEAD
             String make = JOptionPane.showInputDialog("Please enter the make:");
             String model = JOptionPane.showInputDialog("Please enter the model:");
             String year = JOptionPane.showInputDialog("Please enter the year:");
@@ -250,7 +173,6 @@ public class App {
             public void actionPerformed(ActionEvent e) {
             // Search and display a customer logic
             String name = JOptionPane.showInputDialog("Please enter the customer name:");
-            
             try {
                 Customer.searchCustomer(customers, name);
             } catch (Customer.CustomerNotFoundException ex) {
@@ -290,9 +212,7 @@ public class App {
         frame.setVisible(true);
             scanner.close();
         }
-=======
-        scanner.close();
-    }
->>>>>>> origin/main
 }
 
+        
+        

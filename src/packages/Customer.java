@@ -131,7 +131,6 @@ public class Customer implements Serializable {
             System.out.println("An error occurred while updating customer information: " + e.getMessage());
         }
     }
-<<<<<<< HEAD
 
     public void updateCustomerInfo(String name, String address, String phone, String email, String dob, String id) {
         setName(name);
@@ -167,6 +166,3 @@ public class Customer implements Serializable {
         }
     }
 }
-=======
-}
->>>>>>> origin/main
