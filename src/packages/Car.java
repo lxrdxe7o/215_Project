@@ -9,7 +9,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 
 
-public class Car extends VehicleType implements Vehicle {
+class Car extends VehicleType implements Vehicle {
 
     public Car() {
     }
@@ -127,6 +127,7 @@ public class Car extends VehicleType implements Vehicle {
         }
     }
 
+<<<<<<< HEAD
     public void updateVehicleInfo(String make, String model, String year, String color, double price, String vin) {
         setMake(make);
         setModel(model);
@@ -136,6 +137,8 @@ public class Car extends VehicleType implements Vehicle {
         setVin(vin);
     }
 
+=======
+>>>>>>> origin/main
     public static void saveCars(ArrayList<Car> cars) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("cars.dat"))) {
             for (Car car : cars) {
@@ -160,6 +163,7 @@ public class Car extends VehicleType implements Vehicle {
             System.out.println("An error occurred while loading cars: " + e.getMessage());
         }
     }
+<<<<<<< HEAD
 
     public static void searchCar(ArrayList<Car> cars, String Model) throws CarNotFoundException {
         for (Car car : cars) {
@@ -187,4 +191,6 @@ public class Car extends VehicleType implements Vehicle {
             super(message);
         }
     }
+=======
+>>>>>>> origin/main
 }

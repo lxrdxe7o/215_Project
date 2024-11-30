@@ -9,6 +9,7 @@ public abstract class VehicleType implements Serializable {
     protected double price;
     protected String vin;
     protected String type;
+<<<<<<< HEAD
 
     public VehicleType() {
     }
@@ -22,3 +23,6 @@ public abstract class VehicleType implements Serializable {
 
     public abstract double discountedPrice(int discount);
 }
+=======
+}
+>>>>>>> origin/main
