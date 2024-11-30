@@ -86,8 +86,6 @@ public class Customer implements Serializable {
         return "Name : " + customer.name + "\n" + "Address : " + customer.address + "\n" + "Phone : " + customer.phone + "\n" + "Email : " + customer.email + "\n" + "DOB : " + customer.dob + "\n" + "ID : " + customer.id;
     }
 
-    // make a similar search and exception method for the customer class
-
     public static void searchCustomer(ArrayList<Customer> customers, String name) throws CustomerNotFoundException {
         for (Customer customer : customers) {
             if (customer.getName().equalsIgnoreCase(name)) {
@@ -96,14 +94,6 @@ public class Customer implements Serializable {
             }
         }
         throw new CustomerNotFoundException("Customer with name " + name + " not found.");
-    }
-
-    // exception class method for the customer class
-
-    public static class CustomerNotFoundException extends Exception {
-        public CustomerNotFoundException(String message) {
-            super(message);
-        }
     }
 
     public void updateCustomerInfo() {
@@ -163,6 +153,12 @@ public class Customer implements Serializable {
             }
         } catch (IOException e) {
             System.out.println("An error occurred while loading customers: " + e.getMessage());
+        }
+    }
+
+    public static class CustomerNotFoundException extends Exception {
+        public CustomerNotFoundException(String message) {
+            super(message);
         }
     }
 }

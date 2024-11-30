@@ -164,23 +164,23 @@ public class Car extends VehicleType implements Vehicle {
 
     public static void searchCar(ArrayList<Car> cars, String Model) throws CarNotFoundException {
         for (Car car : cars) {
-            if (car.getVin().equals(Model)) {
-                System.out.println(car);
+            if (car.getModel().equals(Model)) {
+                System.out.println(Car.toString(car));
                 return;
             }
         }
-        throw new CarNotFoundException("Car with VIN " + Model + " not found.");
+        throw new CarNotFoundException("Car with model " + Model + " not found.");
     }
 
-    public static void updateCarInfo(ArrayList<Car> cars, String vin) throws CarNotFoundException {
+    public static void updateCarInfo(ArrayList<Car> cars, String model) throws CarNotFoundException {
         for (Car car : cars) {
-            if (car.getVin().equals(vin)) {
+            if (car.getModel().equals(model)) {
                 car.updateVehicleInfo();
                 Car.saveCars(cars);
                 return;
             }
         }
-        throw new CarNotFoundException("Car with VIN " + vin + " not found.");
+        throw new CarNotFoundException("Car with VIN " + model + " not found.");
     }
 
     static class CarNotFoundException extends Exception {

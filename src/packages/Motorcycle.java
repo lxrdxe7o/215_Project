@@ -161,10 +161,10 @@ public static void loadMotorcycles(ArrayList<Motorcycle> motorcycles) {
     }
 }
 
-public static void searchMotorcycle(ArrayList<Motorcycle> motorcycles, String vin) throws MotorcycleNotFoundException {
+public static void searchMotorcycle(ArrayList<Motorcycle> motorcycles, String model) throws MotorcycleNotFoundException {
     for (Motorcycle motorcycle : motorcycles) {
-        if (motorcycle.getVin().equals(vin)) {
-            System.out.println(motorcycle);
+        if (motorcycle.getModel().equals(model)) {
+            System.out.println(Motorcycle.toString(motorcycle));
             return;
         }
     }

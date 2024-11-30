@@ -23,21 +23,18 @@ public class App extends JFrame{
         vehicleTypes.put("Car", "Car");
         vehicleTypes.put("Motorcycle", "Motorcycle");
 
-        // Load data from files
         Car.loadCars(cars);
         Motorcycle.loadMotorcycles(motorcycles);
         Customer.loadCustomers(customers);
-        // Create the main frame
+
         JFrame frame = new JFrame("Vehicle Inventory App");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(600, 400);
         frame.setLayout(new BorderLayout());
 
-        // Create the main panel
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(10, 1));
 
-        // Create buttons for each option
         JButton addVehicleButton = new JButton("Add a vehicle");
         JButton addCustomerButton = new JButton("Add a customer");
         JButton listVehiclesButton = new JButton("List all vehicles");
@@ -48,7 +45,6 @@ public class App extends JFrame{
         JButton updateCustomerButton = new JButton("Search and update a customer");
         JButton exitButton = new JButton("Exit");
 
-        // Add buttons to the panel
         panel.add(addVehicleButton);
         panel.add(addCustomerButton);
         panel.add(listVehiclesButton);
@@ -59,13 +55,11 @@ public class App extends JFrame{
         panel.add(updateCustomerButton);
         panel.add(exitButton);
 
-        // Add panel to the frame
         frame.add(panel, BorderLayout.CENTER);
 
-        // Add action listeners to buttons
         addVehicleButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-            // Add vehicle logic
+
             String vehicleType = JOptionPane.showInputDialog("Please enter the vehicle type (Car or Motorcycle):").trim().toLowerCase();
             if (!vehicleTypes.containsKey(vehicleType.substring(0, 1).toUpperCase() + vehicleType.substring(1))) {
                 JOptionPane.showMessageDialog(frame, "Invalid vehicle type.");
@@ -92,7 +86,7 @@ public class App extends JFrame{
 
         addCustomerButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-            // Add customer logic
+
             String name = JOptionPane.showInputDialog("Please enter the customer name:");
             String address = JOptionPane.showInputDialog("Please enter the customer address:");
             String phone = JOptionPane.showInputDialog("Please enter the customer phone number:");
@@ -107,14 +101,14 @@ public class App extends JFrame{
 
         listVehiclesButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-            // List all vehicles logic
+ 
             StringBuilder vehiclesList = new StringBuilder("Cars:\n");
             for (Car car : cars) {
-                vehiclesList.append(car.toString()).append("\n");
+                vehiclesList.append(Car.toString(car)).append("\n");
             }
             vehiclesList.append("Motorcycles:\n");
             for (Motorcycle motorcycle : motorcycles) {
-                vehiclesList.append(motorcycle.toString()).append("\n");
+                vehiclesList.append(Motorcycle.toString(motorcycle)).append("\n");
             }
             JOptionPane.showMessageDialog(frame, vehiclesList.toString());
             }
@@ -122,10 +116,10 @@ public class App extends JFrame{
 
         listCustomersButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-            // List all customers logic
+         
             StringBuilder customersList = new StringBuilder();
             for (Customer customer : customers) {
-                customersList.append(customer.toString()).append("\n");
+                customersList.append(Customer.toString(customer)).append("\n");
             }
             JOptionPane.showMessageDialog(frame, customersList.toString());
             }
@@ -133,7 +127,7 @@ public class App extends JFrame{
 
         searchVehicleButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-            // Search and display a vehicle logic
+           
             String vehicleType = JOptionPane.showInputDialog("Please enter the vehicle type (Car or Motorcycle):").trim().toLowerCase();
             String model = JOptionPane.showInputDialog("Please enter the model:");
             try {
@@ -152,7 +146,7 @@ public class App extends JFrame{
 
         updateVehicleButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-            // Search and update a vehicle logic
+          
             String vehicleType = JOptionPane.showInputDialog("Please enter the vehicle type (Car or Motorcycle):").trim().toLowerCase();
             String model = JOptionPane.showInputDialog("Please enter the model:");
             try {
@@ -171,7 +165,7 @@ public class App extends JFrame{
 
         searchCustomerButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-            // Search and display a customer logic
+      
             String name = JOptionPane.showInputDialog("Please enter the customer name:");
             try {
                 Customer.searchCustomer(customers, name);
@@ -183,7 +177,7 @@ public class App extends JFrame{
 
         updateCustomerButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-            // Search and update a customer logic
+           
             String name = JOptionPane.showInputDialog("Please enter the customer ID:");
             try {
                 for (Customer customer : customers) {
@@ -199,7 +193,7 @@ public class App extends JFrame{
 
         exitButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-            // Exit logic
+         
             Car.saveCars(cars);
             Motorcycle.saveMotorcycles(motorcycles);
             Customer.saveCustomers(customers);
@@ -208,7 +202,7 @@ public class App extends JFrame{
             }
         });
 
-        // Display the frame
+      
         frame.setVisible(true);
             scanner.close();
         }
