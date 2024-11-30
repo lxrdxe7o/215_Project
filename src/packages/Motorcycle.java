@@ -125,7 +125,6 @@ public void updateVehicleInfo() {
     }
 }
 
-// overload the updateVehicleInfo method
 
 public void updateVehicleInfo(String make, String model, String year, String color, double price, String vin) {
     setMake(make);
@@ -168,7 +167,7 @@ public static void searchMotorcycle(ArrayList<Motorcycle> motorcycles, String mo
             return;
         }
     }
-    throw new MotorcycleNotFoundException("Motorcycle with VIN " + vin + " not found.");
+    throw new MotorcycleNotFoundException("Motorcycle with VIN " + model + " not found.");
 }
 
 public static void updateMotorcycleInfo(ArrayList<Motorcycle> motorcycles, String vin) throws MotorcycleNotFoundException {
