@@ -7,13 +7,11 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-
 import packages.Car;
 import packages.Motorcycle;
 import packages.Customer;
 
-
-public class App extends JFrame{
+public class App extends JFrame {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         ArrayList<Car> cars = new ArrayList<>();
@@ -60,153 +58,153 @@ public class App extends JFrame{
         addVehicleButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
-            String vehicleType = JOptionPane.showInputDialog("Please enter the vehicle type (Car or Motorcycle):").trim().toLowerCase();
-            if (!vehicleTypes.containsKey(vehicleType.substring(0, 1).toUpperCase() + vehicleType.substring(1))) {
-                JOptionPane.showMessageDialog(frame, "Invalid vehicle type.");
-                return;
-            }
-            vehicleType = vehicleType.substring(0, 1).toUpperCase() + vehicleType.substring(1);
+                String vehicleType = JOptionPane.showInputDialog("Please enter the vehicle type (Car or Motorcycle):")
+                        .trim().toLowerCase();
+                if (!vehicleTypes.containsKey(vehicleType.substring(0, 1).toUpperCase() + vehicleType.substring(1))) {
+                    JOptionPane.showMessageDialog(frame, "Invalid vehicle type.");
+                    return;
+                }
+                vehicleType = vehicleType.substring(0, 1).toUpperCase() + vehicleType.substring(1);
 
-            String make = JOptionPane.showInputDialog("Please enter the make:");
-            String model = JOptionPane.showInputDialog("Please enter the model:");
-            String year = JOptionPane.showInputDialog("Please enter the year:");
-            String color = JOptionPane.showInputDialog("Please enter the color:");
-            String price = JOptionPane.showInputDialog("Please enter the price:");
-            String vin = JOptionPane.showInputDialog("Please enter the VIN:");
+                String make = JOptionPane.showInputDialog("Please enter the make:");
+                String model = JOptionPane.showInputDialog("Please enter the model:");
+                String year = JOptionPane.showInputDialog("Please enter the year:");
+                String color = JOptionPane.showInputDialog("Please enter the color:");
+                String price = JOptionPane.showInputDialog("Please enter the price:");
+                String vin = JOptionPane.showInputDialog("Please enter the VIN:");
 
-            if (vehicleType.equals("Car")) {
-                cars.add(new Car(make, model, year, color, Double.parseDouble(price), vin, vehicleType));
-                Car.saveCars(cars);
-            } else if (vehicleType.equals("Motorcycle")) {
-                motorcycles.add(new Motorcycle(make, model, year, color, Double.parseDouble(price), vin, vehicleType));
-                Motorcycle.saveMotorcycles(motorcycles);
-            }
+                if (vehicleType.equals("Car")) {
+                    cars.add(new Car(make, model, year, color, Double.parseDouble(price), vin, vehicleType));
+                    Car.saveCars(cars);
+                } else if (vehicleType.equals("Motorcycle")) {
+                    motorcycles
+                            .add(new Motorcycle(make, model, year, color, Double.parseDouble(price), vin, vehicleType));
+                    Motorcycle.saveMotorcycles(motorcycles);
+                }
             }
         });
 
         addCustomerButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
-            String name = JOptionPane.showInputDialog("Please enter the customer name:");
-            String address = JOptionPane.showInputDialog("Please enter the customer address:");
-            String phone = JOptionPane.showInputDialog("Please enter the customer phone number:");
-            String email = JOptionPane.showInputDialog("Please enter the customer email:");
-            String dob = JOptionPane.showInputDialog("Please enter the customer date of birth:");
-            String id = JOptionPane.showInputDialog("Please enter the customer ID:");
+                String name = JOptionPane.showInputDialog("Please enter the customer name:");
+                String address = JOptionPane.showInputDialog("Please enter the customer address:");
+                String phone = JOptionPane.showInputDialog("Please enter the customer phone number:");
+                String email = JOptionPane.showInputDialog("Please enter the customer email:");
+                String dob = JOptionPane.showInputDialog("Please enter the customer date of birth:");
+                String id = JOptionPane.showInputDialog("Please enter the customer ID:");
 
-            customers.add(new Customer(name, address, phone, email, dob, id));
-            Customer.saveCustomers(customers);
+                customers.add(new Customer(name, address, phone, email, dob, id));
+                Customer.saveCustomers(customers);
             }
         });
 
         listVehiclesButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
- 
-            StringBuilder vehiclesList = new StringBuilder("Cars:\n");
-            for (Car car : cars) {
-                vehiclesList.append(Car.toString(car)).append("\n");
-            }
-            vehiclesList.append("Motorcycles:\n");
-            for (Motorcycle motorcycle : motorcycles) {
-                vehiclesList.append(Motorcycle.toString(motorcycle)).append("\n");
-            }
-            JOptionPane.showMessageDialog(frame, vehiclesList.toString());
+
+                StringBuilder vehiclesList = new StringBuilder("Cars:\n");
+                for (Car car : cars) {
+                    vehiclesList.append(Car.toString(car)).append("\n");
+                }
+                vehiclesList.append("Motorcycles:\n");
+                for (Motorcycle motorcycle : motorcycles) {
+                    vehiclesList.append(Motorcycle.toString(motorcycle)).append("\n");
+                }
+                JOptionPane.showMessageDialog(frame, vehiclesList.toString());
             }
         });
 
         listCustomersButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-         
-            StringBuilder customersList = new StringBuilder();
-            for (Customer customer : customers) {
-                customersList.append(Customer.toString(customer)).append("\n");
-            }
-            JOptionPane.showMessageDialog(frame, customersList.toString());
+
+                StringBuilder customersList = new StringBuilder();
+                for (Customer customer : customers) {
+                    customersList.append(Customer.toString(customer)).append("\n");
+                }
+                JOptionPane.showMessageDialog(frame, customersList.toString());
             }
         });
 
         searchVehicleButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-           
-            String vehicleType = JOptionPane.showInputDialog("Please enter the vehicle type (Car or Motorcycle):").trim().toLowerCase();
-            String model = JOptionPane.showInputDialog("Please enter the model:");
-            try {
-                if (vehicleType.equals("car")) {
-                Car.searchCar(cars, model);
-                } else if (vehicleType.equals("motorcycle")) {
-                Motorcycle.searchMotorcycle(motorcycles, model);
-                } else {
-                JOptionPane.showMessageDialog(frame, "Invalid vehicle type.");
+
+                String vehicleType = JOptionPane.showInputDialog("Please enter the vehicle type (Car or Motorcycle):")
+                        .trim().toLowerCase();
+                String model = JOptionPane.showInputDialog("Please enter the model:");
+                try {
+                    if (vehicleType.equals("car")) {
+                        Car.searchCar(cars, model);
+                    } else if (vehicleType.equals("motorcycle")) {
+                        Motorcycle.searchMotorcycle(motorcycles, model);
+                    } else {
+                        JOptionPane.showMessageDialog(frame, "Invalid vehicle type.");
+                    }
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(frame, ex.getMessage());
                 }
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(frame, ex.getMessage());
-            }
             }
         });
 
         updateVehicleButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-          
-            String vehicleType = JOptionPane.showInputDialog("Please enter the vehicle type (Car or Motorcycle):").trim().toLowerCase();
-            String model = JOptionPane.showInputDialog("Please enter the model:");
-            try {
-                if (vehicleType.equals("car")) {
-                Car.updateCarInfo(cars, model);
-                } else if (vehicleType.equals("motorcycle")) {
-                Motorcycle.updateMotorcycleInfo(motorcycles, model);
-                } else {
-                JOptionPane.showMessageDialog(frame, "Invalid vehicle type.");
+
+                String vehicleType = JOptionPane.showInputDialog("Please enter the vehicle type (Car or Motorcycle):")
+                        .trim().toLowerCase();
+                String model = JOptionPane.showInputDialog("Please enter the model:");
+                try {
+                    if (vehicleType.equals("car")) {
+                        Car.updateCarInfo(cars, model);
+                    } else if (vehicleType.equals("motorcycle")) {
+                        Motorcycle.updateMotorcycleInfo(motorcycles, model);
+                    } else {
+                        JOptionPane.showMessageDialog(frame, "Invalid vehicle type.");
+                    }
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(frame, ex.getMessage());
                 }
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(frame, ex.getMessage());
-            }
             }
         });
 
         searchCustomerButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-      
-            String name = JOptionPane.showInputDialog("Please enter the customer name:");
-            try {
-                Customer.searchCustomer(customers, name);
-            } catch (Customer.CustomerNotFoundException ex) {
-                JOptionPane.showMessageDialog(frame, ex.getMessage());
-            }
+
+                String name = JOptionPane.showInputDialog("Please enter the customer name:");
+                try {
+                    Customer.searchCustomer(customers, name);
+                } catch (Customer.CustomerNotFoundException ex) {
+                    JOptionPane.showMessageDialog(frame, ex.getMessage());
+                }
             }
         });
 
         updateCustomerButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-           
-            String name = JOptionPane.showInputDialog("Please enter the customer ID:");
-            try {
-                for (Customer customer : customers) {
-                Customer.searchCustomer(customers, name);
-                customer.updateCustomerInfo();
-                break;
+
+                String name = JOptionPane.showInputDialog("Please enter the customer ID:");
+                try {
+                    for (Customer customer : customers) {
+                        Customer.searchCustomer(customers, name);
+                        customer.updateCustomerInfo();
+                        break;
+                    }
+                } catch (Customer.CustomerNotFoundException ex) {
+                    JOptionPane.showMessageDialog(frame, ex.getMessage());
                 }
-            } catch (Customer.CustomerNotFoundException ex) {
-                JOptionPane.showMessageDialog(frame, ex.getMessage());
-            }
             }
         });
 
         exitButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-         
-            Car.saveCars(cars);
-            Motorcycle.saveMotorcycles(motorcycles);
-            Customer.saveCustomers(customers);
-            JOptionPane.showMessageDialog(frame, "Exiting the Vehicle Inventory App.");
-            System.exit(0);
+
+                Car.saveCars(cars);
+                Motorcycle.saveMotorcycles(motorcycles);
+                Customer.saveCustomers(customers);
+                JOptionPane.showMessageDialog(frame, "Exiting the Vehicle Inventory App.");
+                System.exit(0);
             }
         });
 
-      
         frame.setVisible(true);
-            scanner.close();
-        }
+        scanner.close();
+    }
 }
-
-        
-        
