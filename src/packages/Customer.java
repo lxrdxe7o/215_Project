@@ -1,14 +1,13 @@
 package packages;
 
-import java.util.Scanner;
-import java.util.ArrayList;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.BufferedReader;
-import java.io.FileReader;
-
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Customer implements Serializable {
     private String name;
@@ -83,7 +82,8 @@ public class Customer implements Serializable {
     }
 
     public static String toString(Customer customer) {
-        return "Name : " + customer.name + "\n" + "Address : " + customer.address + "\n" + "Phone : " + customer.phone + "\n" + "Email : " + customer.email + "\n" + "DOB : " + customer.dob + "\n" + "ID : " + customer.id;
+        return "Name : " + customer.name + "\n" + "Address : " + customer.address + "\n" + "Phone : " + customer.phone
+                + "\n" + "Email : " + customer.email + "\n" + "DOB : " + customer.dob + "\n" + "ID : " + customer.id;
     }
 
     public static void searchCustomer(ArrayList<Customer> customers, String name) throws CustomerNotFoundException {
